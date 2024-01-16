@@ -14,6 +14,7 @@ userSchema.path('email').validate(function (value) {
   return emailRegex.test(value);
 }, 'Invalid email format');
 
+// TODO: validar tambien que tengan numeros y letras aparte de mayusculas
 const validatePassword = password => {
   if (password.length < 8) {
     throw new Error('Password should be at least 8 characters long');
