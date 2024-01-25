@@ -24,7 +24,6 @@ async function initUser() {
 
 async function initCourse() {
   try {
-    // Eliminar todos los cursos existentes
     const deleted = await TypeMasterHubCourse.deleteMany();
     console.log(`Deleted existing courses: ${deleted.deletedCount} documents`);
 
@@ -34,10 +33,5 @@ async function initCourse() {
     );
   } catch (error) {
     console.error('Initialization failed:', error);
-
-    // Imprimir detalles adicionales del error
-    if (error.errors) {
-      console.error('Validation errors:', error.errors);
-    }
   }
 }
