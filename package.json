@@ -16,6 +16,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "initDb": "node ./bin/initDb.js",
     "dev": "cross-env PORT=5000 NODE_ENV=development DEBUG=typeMasteryHub:* nodemon"
   },
   "dependencies": {
