@@ -27,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Routes Api
  */
 
+app.use('/api/v1/course', require('./routes/api/Courses'));
+
 app.use('/api/v1/user', require('./controller/auth'));
 
 app.use('/', require('./routes/index'));

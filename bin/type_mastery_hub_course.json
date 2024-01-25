@@ -1,0 +1,68 @@
+{
+    "name": "Curso de Mecanografía",
+    "topics": [
+        {
+            "name": "Familiarización con el Teclado",
+            "order": 1,
+            "performance": {
+                "max-time": 180,
+                "levels": {
+                    "copper": {
+                        "max-time": 120,
+                        "stars": 2
+                    },
+                    "silver": {
+                        "max-time": 60,
+                        "stars": 1
+                    },
+                    "gold": {
+                        "max-time": 30,
+                        "stars": 0
+                    }
+                }
+            },
+            "tests": [
+                {
+                    "title": "Linea Central A",
+                    "order": 1,
+                    "text_test": "asdfghjklñasdfghjklñasdfghjklñasdfghjklñasdfghjklñasdfghjklñasdfghjklñasdfghjklñ"
+                },
+                {
+                    "title": "Linea Central B",
+                    "order": 2,
+                    "text_test": "ñghsadljfkhklñdsahjfgghdñlkfjsajñklafsdhgfhdsjklñglajkñglsafhdlkñjafhsgdñhsajgfk"
+                },
+                {
+                    "title": "Linea Inferior A",
+                    "order": 3,
+                    "text_test": "zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-zxcvbnm,.-"
+                },
+                {
+                    "title": "Linea Inferior B",
+                    "order": 4,
+                    "text-test": ",.zn,-zcvbn,mvxz-.-zxcv.-,bnmzxcv,bnmzxcvbnmzxc,v.-zxcvbnm,.-x,c.vbnm,-xcvbnm,.-"
+                },
+                {
+                    "title": "Linea Superior A",
+                    "order": 5,
+                    "text_test": "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop"
+                },
+                {
+                    "title": "Linea Superior B",
+                    "order": 6,
+                    "text_test": "qweyuioprtqweyuioprtqweyuioprtqweyuioprtqweyuioprtqweyuioprtqweyuioprtqweyuioprt"
+                },
+                {
+                    "title": "Linea Numeral A",
+                    "order": 7,
+                    "text_test": "123456789012345678901234567890123456789012345678901234567890"
+                },
+                {
+                    "title": "Linea Numeral B",
+                    "order": 8,
+                    "text_test": "1987452630198745263019874526301987452630198745263019874526301"
+                }
+            ]
+        }
+    ]
+}
