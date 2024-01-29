@@ -63,6 +63,69 @@
                     "text_test": "1987452630198745263019874526301987452630198745263019874526301"
                 }
             ]
+        },
+        {
+            "name": "Todas las zonas del Teclado",
+            "order": 2,
+            "performance": {
+                "max-time": 180,
+                "levels": {
+                    "copper": {
+                        "max-time": 120,
+                        "stars": 2
+                    },
+                    "silver": {
+                        "max-time": 60,
+                        "stars": 1
+                    },
+                    "gold": {
+                        "max-time": 30,
+                        "stars": 0
+                    }
+                }
+            },
+            "tests": [
+                {
+                    "title": "Todas las zonas del Teclado 1",
+                    "order": 1,
+                    "text_test": "abcdefghijklmnñopqrstuvwyz-1234567890.abcdefghijklmnñopqrstuvwyz-1234567890,"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 2",
+                    "order": 2,
+                    "text_test": "0987654321.zyxwvutsrqponmlkjihgfedcba,0987654321.zyxwvutsrqponmlkjihgfedcba-"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 3",
+                    "order": 3,
+                    "text_test": "lmxo6fdidr1ytm0os024stw9qbsim7b8sfvdln0xw90bm90ia1zp81d6chl0xfgemtotkg6pccmrhvbf"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 4",
+                    "order": 4,
+                    "text-test": "l08224f.r.1zj4pbtu1gpct73gf67oc4hl074pmtlz0g4g81t.pvbs0ntqbb-y0ntivfva64qmf86mkd"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 5",
+                    "order": 5,
+                    "text_test": "zkmew5f.rz28shiz-1mqnzihrc3zgkufms-6u4ñtj726rne947c-c07,212uhnkn05ra9v2lklr8asqr"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 6",
+                    "order": 6,
+                    "text_test": "q0y9or3j-phv7grmzouq5w27rduulqm,dcsh1mezni9-01jjroiyyr2ya9iñrmd4r8u5i3qe8meafhof"
+                },
+                {
+                    "title": "Todas las zonas del Teclado 7",
+                    "order": 7,
+                    "text_test": "bvsat5ñ,byro6e35yisg-.ze5098ld06ozpe-54ij-9bock-bpb2hie85mu7tgpewh06ejzm617clrhp"
+                },
+                {
+                    "title": "Todas las zonas del Teclado Final",
+                    "order": 8,
+                    "text_test": "5mmkp7nñe0re98d2wo8jbmik9bzbp9es4p7wm7r-ic0wca-lirg68h6lk89rko7jao3uv80v6wldb8jw"
+                }
+            ]
         }
     ]
 }
