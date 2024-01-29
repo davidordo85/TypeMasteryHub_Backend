@@ -14,7 +14,7 @@ router.get('/', async function (req, res, next) {
 
     // Mapear para obtener solo los nombres de los temas
     const topicNames = result.map(course =>
-      course.topics.map(topic => ({ name: topic.name })),
+      course.topics.map(topic => ({ name: topic.name, order: topic.order })),
     );
 
     res.status(200).json({ success: true, result: topicNames.flat() });
