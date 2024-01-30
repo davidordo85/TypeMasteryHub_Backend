@@ -12,14 +12,17 @@ router.get('/', async function (req, res, next) {
   try {
     const result = await TypeMasterHubCourse.find();
 
-    // Mapear para obtener solo los nombres de los temas
-    const topicNames = result.map(course =>
-      course.topics.map(topic => ({ name: topic.name, order: topic.order })),
-    );
+    const dataToSend = result.map(course => ({
+      courseName: course.name,
+      topics: course.topics.map(topic => ({
+        name: topic.name,
+        order: topic.order,
+      })),
+    }));
 
-    res.status(200).json({ success: true, result: topicNames.flat() });
+    res.status(200).json({ success: true, result: dataToSend });
   } catch (error) {
-    next(error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -36,12 +39,20 @@ router.get('/:name', async function (req, res, next) {
     if (!course) {
       return res
         .status(404)
-        .json({ success: false, message: 'Tema no encontrado' });
+        .json({ success: false, message: 'Topic not found' });
     }
 
     const topic = course.topics.find(topic => topic.name === req.params.name);
 
-    res.status(200).json({ success: true, result: topic });
+    const result = {
+      topicName: topic.name,
+      tests: topic.tests.map(test => ({
+        title: test.title,
+        order: test.order,
+      })),
+    };
+
+    res.status(200).json({ success: true, result });
   } catch (error) {
     next(error);
   }
