@@ -8,15 +8,15 @@
                 "max-time": 180,
                 "levels": {
                     "copper": {
-                        "max-time": 120,
+                        "max_time": 120,
                         "stars": 2
                     },
                     "silver": {
-                        "max-time": 60,
+                        "max_time": 60,
                         "stars": 1
                     },
                     "gold": {
-                        "max-time": 30,
+                        "max_time": 30,
                         "stars": 0
                     }
                 }
