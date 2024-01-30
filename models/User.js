@@ -19,6 +19,20 @@ const validatePassword = password => {
   if (password.length < 8) {
     throw new Error('Password should be at least 8 characters long');
   }
+
+  const uppercaseRegex = /[A-Z]/;
+  const lowercaseRegex = /[a-z]/;
+  const numberRegex = /[0-9]/;
+
+  if (
+    !uppercaseRegex.test(password) ||
+    !lowercaseRegex.test(password) ||
+    !numberRegex.test(password)
+  ) {
+    throw new Error(
+      'Password should contain at least one uppercase letter, one lowercase letter, and one number',
+    );
+  }
 };
 
 userSchema.statics.hashPassword = async function (password) {
