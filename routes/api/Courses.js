@@ -60,4 +60,40 @@ router.get('/:name', async function (req, res, next) {
   }
 });
 
+router.get('/test/:topicName/:title', async function (req, res, next) {
+  try {
+    const course = await TypeMasterHubCourse.findOne({
+      'topics.name': req.params.topicName,
+    });
+
+    if (course) {
+      const foundTopic = course.topics.find(
+        topic => topic.name === req.params.topicName,
+      );
+
+      if (foundTopic) {
+        const foundTest = foundTopic.tests.find(
+          test => test.title === req.params.title,
+        );
+
+        if (foundTest) {
+          const { performance } = foundTopic;
+          res.json({
+            success: true,
+            result: [{ performance, test: foundTest }],
+          });
+        } else {
+          res.status(404).json({ success: false, message: 'Test not found' });
+        }
+      } else {
+        res.status(404).json({ success: false, message: 'Topic not found' });
+      }
+    } else {
+      res.status(404).json({ success: false, message: 'Course not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
