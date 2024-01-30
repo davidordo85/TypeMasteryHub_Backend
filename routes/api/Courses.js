@@ -44,15 +44,17 @@ router.get('/:name', async function (req, res, next) {
 
     const topic = course.topics.find(topic => topic.name === req.params.name);
 
-    const result = {
-      topicName: topic.name,
-      tests: topic.tests.map(test => ({
-        title: test.title,
-        order: test.order,
-      })),
-    };
+    const result = [
+      {
+        topicName: topic.name,
+        tests: topic.tests.map(test => ({
+          title: test.title,
+          order: test.order,
+        })),
+      },
+    ];
 
-    res.status(200).json({ success: true, result });
+    res.status(200).json({ success: true, result: result });
   } catch (error) {
     next(error);
   }
