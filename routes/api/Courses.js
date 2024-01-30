@@ -60,6 +60,10 @@ router.get('/:name', async function (req, res, next) {
   }
 });
 
+/**
+ * GET /api/v1/course/test/:topicName/:title
+ */
+
 router.get('/test/:topicName/:title', async function (req, res, next) {
   try {
     const course = await TypeMasterHubCourse.findOne({
