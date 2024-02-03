@@ -177,3 +177,43 @@
     "password": "secure_password"
   }
   ```
+
+- **📊 Add result**
+
+  - **Endpoint:** `api/v1/user/addResult`
+  - **Method:** 📤 POST
+  - **Middleware:** `jwtAuth` para autenticación.
+  - **Description:** Permite a los usuarios enviar resultados de pruebas proporcionando información como el ID del tema, el ID de la prueba, las estrellas obtenidas y las pulsaciones por minuto (ppm) durante la prueba.
+
+    - `id_topic`: ID del tema.
+    - `id_test`: ID de la prueba.
+    - `stars`: Número de estrellas obtenidas en la prueba.
+    - `ppm`: Pulsaciones por minuto (ppm).
+
+  Ejemplo de solicitud JSON:
+
+  ```json
+  {
+    "id_topic": "ejemplo_id",
+    "id_test": "ejemplo_id",
+    "stars": "3",
+    "ppm": "80"
+  }
+  ```
+
+  Ejemplo de encabezados:
+
+  ```json
+  {
+    "Authorization": "Bearer Token"
+  }
+  ```
+
+  - **404 Not Found: When the specified user is not found.**
+
+  ```json
+  {
+    "success": false,
+    "message": "User does not exist."
+  }
+  ```

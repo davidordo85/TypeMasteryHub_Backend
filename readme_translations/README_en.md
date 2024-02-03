@@ -179,3 +179,41 @@
     "password": "secure_password"
   }
   ```
+
+  - **📊 Add result**
+
+  - **Endpoint:** `api/v1/user/addResult`
+  - **Method:** 📤 POST
+  - **Middleware:** `jwtAuth` for authentication.
+  - **Description:** Allows users to submit test results by providing information such as the topic ID, test ID, stars achieved, and pulsations per minute (ppm) during the test.
+    - `id_topic`: Id of topic.
+    - `id_test`: Id of test.
+    - `stars`: Number stars of test.
+    - `ppm`: pulsations per minute (ppm).
+
+  Example JSON request:
+
+  ```json
+  {
+    "id_topic": "example_id",
+    "id_test": "example_id",
+    "stars": "3",
+    "ppm": "80"
+  }
+  ```
+
+  Example Headers:
+
+````json
+{
+  "Authorization": "Bearer Token"
+}
+
+  - **404 Not Found: When the specified user is not found.**
+
+  ```json
+  {
+    "success": false,
+    "message": "User does not exist."
+  }
+````

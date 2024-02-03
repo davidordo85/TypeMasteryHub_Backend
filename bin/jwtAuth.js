@@ -19,7 +19,6 @@ module.exports = (req, res, next) => {
 
   // Comprobar que el token es válido
   jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-    console.log(jwtToken);
     if (err) {
       if (err instanceof jwt.TokenExpiredError) {
         const error = new Error('Token expired');

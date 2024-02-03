@@ -2,13 +2,13 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const jwtToken = require('../bin/jwtAuth');
 
 const { User } = require('../models');
 
 router.post('/login', async (req, res, next) => {
   try {
     const { usernameOrEmail, password } = req.body;
-    console.log(usernameOrEmail, password);
 
     const user = await User.findOne({
       $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
@@ -40,7 +40,6 @@ router.post('/login', async (req, res, next) => {
 router.post('/register', async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
-    console.log(username, email, password);
 
     const existingEmail = await User.findOne({ email });
     const existingUsername = await User.findOne({ username });
@@ -64,6 +63,37 @@ router.post('/register', async (req, res, next) => {
     res.status(201).json({ success: true });
   } catch (err) {
     next(err);
+  }
+});
+
+router.post('/addResults', jwtToken, async (req, res, next) => {
+  const userId = req.apiAuthUserId;
+  const { id_topic, id_test, stars, ppm } = req.body;
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'User does not exist.' });
+    }
+
+    user.resultsTest.push({
+      id_topic,
+      id_test,
+      stars,
+      ppm,
+    });
+
+    console.log('user log', user);
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ success: true, message: 'Results successfully added.' });
+  } catch (error) {
+    next(error);
   }
 });
 
