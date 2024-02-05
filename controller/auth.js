@@ -85,8 +85,6 @@ router.post('/addResults', jwtToken, async (req, res, next) => {
       ppm,
     });
 
-    console.log('user log', user);
-
     await user.save();
 
     return res

@@ -84,7 +84,9 @@ router.get('/test/:topicName/:title', async function (req, res, next) {
           const { performance } = foundTopic;
           res.json({
             success: true,
-            result: [{ performance, test: foundTest }],
+            result: [
+              { performance, test: foundTest, id_topic: foundTopic._id },
+            ],
           });
         } else {
           res.status(404).json({ success: false, message: 'Test not found' });
