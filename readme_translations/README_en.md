@@ -186,7 +186,7 @@
   - **Method:** 📤 POST
   - **Middleware:** `jwtAuth` for authentication.
   - **Description:** Allow users to submit test results by providing information such as the topic ID, test ID, obtained stars, keystrokes per minute (KPM) during the test, test duration time, and errors made.
-    - `id_topic`: Id of topic.
+
     - `id_test`: Id of test.
     - `stars`: Number stars of test.
     - `ppm`: Pulsations per minute (ppm).
@@ -208,16 +208,35 @@
 
   Example Headers:
 
-````json
+```json
 {
   "Authorization": "Bearer Token"
 }
+```
 
-  - **404 Not Found: When the specified user is not found.**
+- **400 Not Found: When required fields are missing in the request.**
+
+  ```json
+  {
+    "success": false,
+    "message": "Missing required fields."
+  }
+  ```
+
+  - **404 Not Found: When the specified user does not exist.**
 
   ```json
   {
     "success": false,
     "message": "User does not exist."
   }
-````
+  ```
+
+  - **409 Conflict: When a result with the same information already exists.**
+
+  ```json
+  {
+    "success": false,
+    "message": "Result with same data already exists."
+  }
+  ```

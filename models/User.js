@@ -9,12 +9,16 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   resultsTest: [
     {
-      id_topic: { type: String },
       id_test: { type: String },
-      stars: { type: Number },
-      ppm: { type: Number },
-      time_test: { type: String },
-      errorCount: { type: Number },
+      result: [
+        {
+          stars: { type: Number },
+          ppm: { type: Number },
+          time_test: { type: Number },
+          errorCount: { type: Number },
+          date: { type: Date },
+        },
+      ],
     },
   ],
 });

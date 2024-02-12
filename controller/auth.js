@@ -68,12 +68,14 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+//TODO: necesito cambiar la forma de almacenar estos datos
+
 router.post('/addResult', jwtToken, async (req, res, next) => {
   const userId = req.apiAuthUserId;
-  const { id_topic, id_test, stars, ppm, time_test, errorCount } = req.body;
+  const { id_test, stars, ppm, time_test, errorCount } = req.body;
 
   try {
-    if (!id_topic || !id_test || !stars || !ppm || !time_test || !errorCount) {
+    if (!id_test || !stars || !ppm || !time_test || !errorCount) {
       return res.status(400).json({
         success: false,
         message: 'Missing required fields.',
@@ -83,30 +85,70 @@ router.post('/addResult', jwtToken, async (req, res, next) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: 'User does not exist.',
       });
     }
 
-    const currentDate = new Date();
+    let isNewResult = true;
 
-    user.resultsTest.push({
-      id_topic,
-      id_test,
-      stars,
-      ppm,
-      time_test,
-      errorCount,
-      date: currentDate,
-    });
+    // Buscar si ya existe un resultado con el mismo id_test
+    const existingResult = user.resultsTest.find(
+      result => result.id_test === id_test,
+    );
 
-    await user.save();
+    if (existingResult) {
+      for (const result of existingResult.result) {
+        console.log('Comparing:', result, {
+          stars,
+          ppm,
+          time_test,
+          errorCount,
+        });
+        if (
+          result.stars === parseInt(stars) &&
+          result.ppm === parseInt(ppm) &&
+          result.time_test === parseInt(time_test) &&
+          result.errorCount === parseInt(errorCount)
+        ) {
+          isNewResult = false;
+          break;
+        }
+      }
+    }
 
-    return res.status(200).json({
-      success: true,
-      message: 'Results successfully added.',
-    });
+    if (isNewResult) {
+      const currentDate = new Date();
+      const newResult = {
+        stars,
+        ppm,
+        time_test,
+        errorCount,
+        date: currentDate,
+      };
+
+      if (existingResult) {
+        existingResult.result.push(newResult);
+      } else {
+        user.resultsTest.push({
+          id_test,
+          result: [newResult],
+        });
+      }
+
+      await user.save();
+
+      return res.status(200).json({
+        success: true,
+        message: 'Results successfully added.',
+      });
+    } else {
+      return res.status(409).json({
+        success: false,
+        message: 'Result with same data already exists.',
+      });
+    }
   } catch (error) {
     next(error);
   }

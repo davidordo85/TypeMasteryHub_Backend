@@ -185,7 +185,6 @@
   - **Middleware:** `jwtAuth` para autenticación.
   - **Description:** Permite a los usuarios enviar resultados de pruebas proporcionando información como el ID del tema, el ID de la prueba, las estrellas obtenidas, las pulsaciones por minuto (ppm) durante la prueba, el tiempo de duración del test y los errores cometidos.
 
-    - `id_topic`: ID del tema.
     - `id_test`: ID de la prueba.
     - `stars`: Número de estrellas obtenidas en la prueba.
     - `ppm`: Pulsaciones por minuto (ppm).
@@ -196,7 +195,6 @@
 
   ```json
   {
-    "id_topic": "example_id",
     "id_test": "example_id",
     "stars": "3",
     "ppm": "80",
@@ -213,11 +211,29 @@
   }
   ```
 
-  - **404 Not Found: When the specified user is not found.**
+  - **400 Not Found: Cuando faltan campos requeridos en la solicitud.**
+
+  ```json
+  {
+    "success": false,
+    "message": "Missing required fields."
+  }
+  ```
+
+  - **404 Not Found: Cuando el usuario especificado no existe.**
 
   ```json
   {
     "success": false,
     "message": "User does not exist."
+  }
+  ```
+
+  - **409 Conflict: Cuando ya existe un resultado con la misma información**
+
+  ```json
+  {
+    "success": false,
+    "message": "Result with same data already exists."
   }
   ```
