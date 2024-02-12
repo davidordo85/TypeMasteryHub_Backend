@@ -15,9 +15,10 @@ router.post('/login', async (req, res, next) => {
     });
 
     if (!user || !(await user.comparePassword(password))) {
-      const error = new Error('Invalid credentials');
-      error.status = 401;
-      throw error;
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials',
+      });
     }
 
     jwt.sign(
@@ -45,9 +46,10 @@ router.post('/register', async (req, res, next) => {
     const existingUsername = await User.findOne({ username });
 
     if (existingEmail || existingUsername) {
-      const error = new Error('User already exists');
-      error.status = 409;
-      throw error;
+      return res.status(409).json({
+        success: false,
+        message: 'User already exists',
+      });
     }
 
     const hash = await User.hashPassword(password, 10);
@@ -66,30 +68,45 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.post('/addResults', jwtToken, async (req, res, next) => {
+router.post('/addResult', jwtToken, async (req, res, next) => {
   const userId = req.apiAuthUserId;
-  const { id_topic, id_test, stars, ppm } = req.body;
+  const { id_topic, id_test, stars, ppm, time_test, errorCount } = req.body;
+
   try {
+    if (!id_topic || !id_test || !stars || !ppm || !time_test || !errorCount) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields.',
+      });
+    }
+
     const user = await User.findById(userId);
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'User does not exist.' });
+      return res.status(400).json({
+        success: false,
+        message: 'User does not exist.',
+      });
     }
+
+    const currentDate = new Date();
 
     user.resultsTest.push({
       id_topic,
       id_test,
       stars,
       ppm,
+      time_test,
+      errorCount,
+      date: currentDate,
     });
 
     await user.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: 'Results successfully added.' });
+    return res.status(200).json({
+      success: true,
+      message: 'Results successfully added.',
+    });
   } catch (error) {
     next(error);
   }

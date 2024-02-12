@@ -183,21 +183,25 @@
   - **Endpoint:** `api/v1/user/addResult`
   - **Method:** 📤 POST
   - **Middleware:** `jwtAuth` para autenticación.
-  - **Description:** Permite a los usuarios enviar resultados de pruebas proporcionando información como el ID del tema, el ID de la prueba, las estrellas obtenidas y las pulsaciones por minuto (ppm) durante la prueba.
+  - **Description:** Permite a los usuarios enviar resultados de pruebas proporcionando información como el ID del tema, el ID de la prueba, las estrellas obtenidas, las pulsaciones por minuto (ppm) durante la prueba, el tiempo de duración del test y los errores cometidos.
 
     - `id_topic`: ID del tema.
     - `id_test`: ID de la prueba.
     - `stars`: Número de estrellas obtenidas en la prueba.
     - `ppm`: Pulsaciones por minuto (ppm).
+    - `time_test`: Tiempo de duración del test (segundos).
+    - `errorCount`: Número de errores cometidos en el test.
 
-  Ejemplo de solicitud JSON:
+  Ejemplo solicitud JSON:
 
   ```json
   {
-    "id_topic": "ejemplo_id",
-    "id_test": "ejemplo_id",
+    "id_topic": "example_id",
+    "id_test": "example_id",
     "stars": "3",
-    "ppm": "80"
+    "ppm": "80",
+    "time_test": "45",
+    "errorCount": "3"
   }
   ```
 

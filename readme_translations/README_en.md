@@ -180,16 +180,18 @@
   }
   ```
 
-  - **📊 Add result**
+- **📊 Add result**
 
   - **Endpoint:** `api/v1/user/addResult`
   - **Method:** 📤 POST
   - **Middleware:** `jwtAuth` for authentication.
-  - **Description:** Allows users to submit test results by providing information such as the topic ID, test ID, stars achieved, and pulsations per minute (ppm) during the test.
+  - **Description:** Allow users to submit test results by providing information such as the topic ID, test ID, obtained stars, keystrokes per minute (KPM) during the test, test duration time, and errors made.
     - `id_topic`: Id of topic.
     - `id_test`: Id of test.
     - `stars`: Number stars of test.
-    - `ppm`: pulsations per minute (ppm).
+    - `ppm`: Pulsations per minute (ppm).
+    - `time_test`: Test duration time (second).
+    - `errorCount`: The number of errors made in the test.
 
   Example JSON request:
 
@@ -198,7 +200,9 @@
     "id_topic": "example_id",
     "id_test": "example_id",
     "stars": "3",
-    "ppm": "80"
+    "ppm": "80",
+    "time_test": "45",
+    "errorCount": "3"
   }
   ```
 

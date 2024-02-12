@@ -13,6 +13,8 @@ const userSchema = mongoose.Schema({
       id_test: { type: String },
       stars: { type: Number },
       ppm: { type: Number },
+      time_test: { type: String },
+      errorCount: { type: Number },
     },
   ],
 });
