@@ -80,6 +80,7 @@ router.put('/', jwtToken, async (req, res) => {
     const testResult = results.resultTest.find(
       result => result.test_name === test_name,
     );
+
     const result = {
       stars: stars,
       ppm: ppm,
@@ -92,7 +93,21 @@ router.put('/', jwtToken, async (req, res) => {
       if (!testResult) {
         results.resultTest.push({ test_name: test_name, result: result });
       } else {
-        testResult.result.push(result);
+        const isDuplicate = testResult.result.some(
+          result =>
+            result.stars === parseInt(stars) &&
+            result.ppm === parseInt(ppm) &&
+            result.time_test === parseInt(time_test) &&
+            result.errorCount === parseInt(errorCount),
+        );
+        if (!isDuplicate) {
+          testResult.result.push(result);
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: 'Duplicate results are not allowed.',
+          });
+        }
       }
       await results.save();
       res.status(200).json({
