@@ -2,7 +2,7 @@
 
 ## API Routes
 
-### Courses
+### 🎓 Courses
 
 - **📚 Get Courses**
 
@@ -142,7 +142,7 @@
     }
     ```
 
-### User
+### 👤 User
 
 - **🔒 Login**
 
@@ -166,11 +166,12 @@
   - **Endpoint:** `api/v1/user/register`
   - **Method:** 📤 POST
   - **Description:** Allows a user to register an account by providing the following information:
+
     - `username`: Unique username.
     - `email`: Valid email address.
     - `password`: Secure password.
 
-  Example JSON request:
+  - Example JSON request:
 
   ```json
   {
@@ -180,63 +181,173 @@
   }
   ```
 
-- **📊 Add result**
+### 📊 Results
 
-  - **Endpoint:** `api/v1/user/addResult`
-  - **Method:** 📤 POST
-  - **Middleware:** `jwtAuth` for authentication.
-  - **Description:** Allow users to submit test results by providing information such as the topic ID, test ID, obtained stars, keystrokes per minute (KPM) during the test, test duration time, and errors made.
+- **🔍 Get results**
 
-    - `id_test`: Id of test.
-    - `stars`: Number stars of test.
-    - `ppm`: Pulsations per minute (ppm).
-    - `time_test`: Test duration time (second).
-    - `errorCount`: The number of errors made in the test.
+  - **Endpoint:** `api/v1/user/results`
+  - **Method:** 📥 GET
+  - **Description:** Allows a user to obtain information about all their results:
 
-  Example JSON request:
+  - Example JSON request:
 
   ```json
   {
-    "id_topic": "example_id",
-    "id_test": "example_id",
-    "stars": "3",
-    "ppm": "80",
-    "time_test": "45",
-    "errorCount": "3"
+    "success": true,
+    "result": {
+      "_id": "id_results",
+      "id_user": "id_user",
+      "resultTest": [
+        {
+          "test_name": "test_name",
+          "result": [
+            {
+              "stars": 2,
+              "ppm": 130,
+              "time_test": 50,
+              "errorCount": 2,
+              "date": "date",
+              "_id": "id_result"
+            },
+            {
+              "stars": 2,
+              "ppm": 130,
+              "time_test": 50,
+              "errorCount": 2,
+              "date": "date",
+              "_id": "id_result"
+            }
+          ],
+          "_id": "id_resultTest"
+        }
+      ],
+      "__v": 2
+    }
   }
   ```
 
-  Example Headers:
+  - Example of headers:
 
-```json
-{
-  "Authorization": "Bearer Token"
-}
-```
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
 
-- **400 Not Found: When required fields are missing in the request.**
+  - Error responses:
+
+  - **401 Not Found: When the result is not found for the user.**
 
   ```json
   {
     "success": false,
-    "message": "Missing required fields."
+    "message": "Not results found."
   }
   ```
 
-  - **404 Not Found: When the specified user does not exist.**
+  **🎯 Get results by test name**
+
+  - **Endpoint:** `api/v1/user/results/:test_name`
+  - **Method:** 📥 GET
+  - **Description:** Allows a user to obtain information about all their results from the specific test:
+
+  - Example JSON request:
+
+  ```json
+  {
+    "success": true,
+    "resultsTest": {
+      "test_name": "lskdajfklsadj",
+      "result": [
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        },
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        }
+      ],
+      "_id": "id_resultsTest"
+    }
+  }
+  ```
+
+  - Example of headers:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Error responses:
+
+  - **401 Not Found: When the result for the test name is not found.**
 
   ```json
   {
     "success": false,
-    "message": "User does not exist."
+    "message": "Not results found."
   }
   ```
 
-  - **409 Conflict: When a result with the same information already exists.**
+  **➕ Add results**
+
+  - **Endpoint:** `api/v1/user/results/`
+  - **Method:** 🔄 PUT
+  - **Description:** Allows a user to add the result of their test:
+
+    - `test_name`: Test name.
+    - `stars`: Number of stars achieved in the test.
+    - `ppm`: Number of pulses per minute in the test (ppm).
+    - `time_test`: Duration of the test (seconds).
+    - `errorCount`: Number of errors made during the test.
+
+  - Example JSON request:
 
   ```json
   {
+    "test_name": "Test name",
+    "starts": 3,
+    "ppm": 150,
+    "time_test": 50,
+    "errorCount": 3
+  }
+  ```
+
+  - Example of headers:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Error responses:
+
+  **400 Not found: If it does not receive any of the data in the body.**
+
+  ```Json
+  {
     "success": false,
-    "message": "Result with same data already exists."
+    "message": "Missing required fields.",
+  }
+  ```
+
+  **404 Not found: If not found user**
+
+  ```Json
+  {
+    "success": false,
+    "message": "Not found results",
   }
   ```

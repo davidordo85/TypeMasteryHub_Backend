@@ -2,7 +2,7 @@
 
 ## Rutas del API
 
-### Cursos
+### 🎓 Cursos
 
 - **📚 Obtener Cursos**
 
@@ -140,7 +140,7 @@
     }
     ```
 
-### User
+### 👤 Usuarios
 
 - **🔒 Iniciar Sesión**
 
@@ -178,62 +178,173 @@
   }
   ```
 
-- **📊 Add result**
+### 📊 Resultados
 
-  - **Endpoint:** `api/v1/user/addResult`
-  - **Method:** 📤 POST
-  - **Middleware:** `jwtAuth` para autenticación.
-  - **Description:** Permite a los usuarios enviar resultados de pruebas proporcionando información como el ID del tema, el ID de la prueba, las estrellas obtenidas, las pulsaciones por minuto (ppm) durante la prueba, el tiempo de duración del test y los errores cometidos.
+- **🔍 Obtener resultados**
 
-    - `id_test`: ID de la prueba.
-    - `stars`: Número de estrellas obtenidas en la prueba.
-    - `ppm`: Pulsaciones por minuto (ppm).
-    - `time_test`: Tiempo de duración del test (segundos).
-    - `errorCount`: Número de errores cometidos en el test.
+  - **Endpoint:** `api/v1/user/results`
+  - **Método:** 📥 GET
+  - **Descripción:** Permite que un usuario obtener información de todos sus resultados:
 
-  Ejemplo solicitud JSON:
+  - Ejemplo de respuesta JSON:
 
   ```json
   {
-    "id_test": "example_id",
-    "stars": "3",
-    "ppm": "80",
-    "time_test": "45",
-    "errorCount": "3"
+    "success": true,
+    "result": {
+      "_id": "id_results",
+      "id_user": "id_user",
+      "resultTest": [
+        {
+          "test_name": "test_name",
+          "result": [
+            {
+              "stars": 2,
+              "ppm": 130,
+              "time_test": 50,
+              "errorCount": 2,
+              "date": "date",
+              "_id": "id_result"
+            },
+            {
+              "stars": 2,
+              "ppm": 130,
+              "time_test": 50,
+              "errorCount": 2,
+              "date": "date",
+              "_id": "id_result"
+            }
+          ],
+          "_id": "id_resultTest"
+        }
+      ],
+      "__v": 2
+    }
   }
   ```
 
-  Ejemplo de encabezados:
+  - Ejemplo de encabezados:
 
-  ```json
-  {
-    "Authorization": "Bearer Token"
-  }
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
   ```
 
-  - **400 Not Found: Cuando faltan campos requeridos en la solicitud.**
+  - Respuestas de error:
+
+  - **401 No Encontrado: Cuando no se encuentra el resultado para el usuario.**
 
   ```json
   {
     "success": false,
-    "message": "Missing required fields."
+    "message": "Not results found."
   }
   ```
 
-  - **404 Not Found: Cuando el usuario especificado no existe.**
+  **🎯 Obtener resultados por nombre de prueba**
+
+  - **Endpoint:** `api/v1/user/results/:test_name`
+  - **Método:** 📥 GET
+  - **Descripción:** Permite que un usuario obtener información de todos sus resultados de la prueba específica:
+
+  - Ejemplo de respuesta JSON:
+
+  ```json
+  {
+    "success": true,
+    "resultsTest": {
+      "test_name": "lskdajfklsadj",
+      "result": [
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        },
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        }
+      ],
+      "_id": "id_resultsTest"
+    }
+  }
+  ```
+
+  - Ejemplo de encabezados:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Respuestas de error:
+
+  - **401 No Encontrado: Cuando no se encuentra el resultado para el nombre de la prueba.**
 
   ```json
   {
     "success": false,
-    "message": "User does not exist."
+    "message": "Not results found."
   }
   ```
 
-  - **409 Conflict: Cuando ya existe un resultado con la misma información**
+  **➕ Añadir resultados**
+
+  - **Endpoint:** `api/v1/user/results/`
+  - **Método:** 🔄 PUT
+  - **Descripción:** Permite a un usuario añadir el resultado de su prueba:
+
+    - `test_name`: Nombre de la prueba.
+    - `stars`: Número de estrellas conseguida en la prueba.
+    - `ppm`: Número de pulsaciones por minuto en la prueba (ppm).
+    - `time_test`: Tiempo de duración de la prueba (segundos).
+    - `errorCount`: Número de errores cometidos durante la prueba.
+
+  - Ejemplo solicitud JSON:
 
   ```json
   {
+    "test_name": "Nombre del test",
+    "starts": 3,
+    "ppm": 150,
+    "time_test": 50,
+    "errorCount": 3
+  }
+  ```
+
+  - Ejemplo de encabezados:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Respuestas de error:
+
+  **400 Not found: Si no recibe cualquiera de los datos en el body**
+
+  ```Json
+  {
     "success": false,
-    "message": "Result with same data already exists."
+    "message": "Missing required fields.",
+  }
+  ```
+
+  **404 Not found: Si no encuentra pruebas de el usuario**
+
+  ```Json
+  {
+    "success": false,
+    "message": "Not found results",
   }
   ```
