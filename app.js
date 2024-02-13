@@ -31,6 +31,8 @@ app.use('/api/v1/course', require('./routes/api/Courses'));
 
 app.use('/api/v1/user', require('./controller/auth'));
 
+app.use('/api/v1/results', require('./controller/results'));
+
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 

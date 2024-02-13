@@ -7,20 +7,6 @@ const userSchema = mongoose.Schema({
   username: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  resultsTest: [
-    {
-      id_test: { type: String },
-      result: [
-        {
-          stars: { type: Number },
-          ppm: { type: Number },
-          time_test: { type: Number },
-          errorCount: { type: Number },
-          date: { type: Date },
-        },
-      ],
-    },
-  ],
 });
 
 userSchema.path('email').validate(function (value) {

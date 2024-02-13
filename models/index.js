@@ -3,4 +3,5 @@ module.exports = {
   mongoose: require('mongoose'),
   User: require('./User'),
   TypeMasterHubCourse: require('./TypeMasterHubCourse'),
+  Results: require('./Results'),
 };
