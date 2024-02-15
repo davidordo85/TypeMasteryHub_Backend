@@ -4,7 +4,7 @@ require('dotenv').config();
 require('../models');
 
 const fileJson = require('./type_mastery_hub_course.json');
-const { mongoose, User, TypeMasterHubCourse } = require('../models');
+const { mongoose, User, TypeMasterHubCourse, Results } = require('../models');
 
 main().catch(err => {
   console.log(err);
@@ -14,6 +14,7 @@ main().catch(err => {
 async function main() {
   await initUser();
   await initCourse();
+  await initResults();
   mongoose.connection.close();
 }
 
@@ -34,4 +35,9 @@ async function initCourse() {
   } catch (error) {
     console.error('Initialization failed:', error);
   }
+}
+
+async function initResults() {
+  const { deletedCount } = await Results.deleteMany();
+  console.log(`Deleted ${deletedCount} results`);
 }

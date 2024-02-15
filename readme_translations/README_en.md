@@ -199,6 +199,7 @@
       "id_user": "id_user",
       "resultTest": [
         {
+          "topic_name": "topic_name",
           "test_name": "test_name",
           "result": [
             {
@@ -247,7 +248,7 @@
 
   **🎯 Get results by test name**
 
-  - **Endpoint:** `api/v1/user/results/:test_name`
+  - **Endpoint:** `api/v1/user/results/test/:test_name`
   - **Method:** 📥 GET
   - **Description:** Allows a user to obtain information about all their results from the specific test:
 
@@ -257,6 +258,7 @@
   {
     "success": true,
     "resultsTest": {
+      "topic_name": "topic_name",
       "test_name": "lskdajfklsadj",
       "result": [
         {
@@ -300,6 +302,62 @@
   }
   ```
 
+  **🎯 Get results by test topic**
+
+  - **Endpoint:** `api/v1/user/results/topic/:topic_name`
+  - **Method:** 📥 GET
+  - **Description:** Allows a user to obtain information about all their results from the specific topic:
+
+  - Example JSON request:
+
+  ```json
+  {
+    "success": true,
+    "resultsTest": {
+      "topic_name": "topic_name",
+      "test_name": "lskdajfklsadj",
+      "result": [
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        },
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        }
+      ],
+      "_id": "id_resultsTest"
+    }
+  }
+  ```
+
+  - Example of headers:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Error responses:
+
+  - **401 Not Found: When the result for the topic name is not found.**
+
+  ```json
+  {
+    "success": false,
+    "message": "Not results found."
+  }
+  ```
+
   **➕ Add results**
 
   - **Endpoint:** `api/v1/user/results/`
@@ -316,6 +374,7 @@
 
   ```json
   {
+    "topic_name": "topic_name",
     "test_name": "Test name",
     "starts": 3,
     "ppm": 150,

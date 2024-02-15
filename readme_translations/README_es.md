@@ -196,6 +196,7 @@
       "id_user": "id_user",
       "resultTest": [
         {
+          "topic_name": "topic_name",
           "test_name": "test_name",
           "result": [
             {
@@ -244,7 +245,7 @@
 
   **🎯 Obtener resultados por nombre de prueba**
 
-  - **Endpoint:** `api/v1/user/results/:test_name`
+  - **Endpoint:** `api/v1/user/results/test/:test_name`
   - **Método:** 📥 GET
   - **Descripción:** Permite que un usuario obtener información de todos sus resultados de la prueba específica:
 
@@ -254,6 +255,7 @@
   {
     "success": true,
     "resultsTest": {
+      "topic_name": "topic_name",
       "test_name": "lskdajfklsadj",
       "result": [
         {
@@ -297,6 +299,62 @@
   }
   ```
 
+  **🎯 Obtener resultados por nombre de tema**
+
+  - **Endpoint:** `api/v1/user/results/topic/:topic_name`
+  - **Método:** 📥 GET
+  - **Descripción:** Permite que un usuario obtener información de todos sus resultados de el tema específico:
+
+  - Ejemplo de respuesta JSON:
+
+  ```json
+  {
+    "success": true,
+    "resultsTest": {
+      "topic_name": "topic_name",
+      "test_name": "lskdajfklsadj",
+      "result": [
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        },
+        {
+          "stars": 2,
+          "ppm": 130,
+          "time_test": 50,
+          "errorCount": 2,
+          "date": "date",
+          "_id": "id_result"
+        }
+      ],
+      "_id": "id_resultsTest"
+    }
+  }
+  ```
+
+  - Ejemplo de encabezados:
+
+  ```Json
+    {
+      "Authorization": "Bearer Token"
+    }
+  ```
+
+  - Respuestas de error:
+
+  - **401 No Encontrado: Cuando no se encuentra el resultado para el nombre de el tema.**
+
+  ```json
+  {
+    "success": false,
+    "message": "Not results found."
+  }
+  ```
+
   **➕ Añadir resultados**
 
   - **Endpoint:** `api/v1/user/results/`
@@ -313,6 +371,7 @@
 
   ```json
   {
+    "topic_name": "topic_name",
     "test_name": "Nombre del test",
     "starts": 3,
     "ppm": 150,

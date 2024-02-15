@@ -6,6 +6,7 @@ const resultsSchema = mongoose.Schema({
   id_user: { type: String, unique: true },
   resultTest: [
     {
+      topic_name: { type: String },
       test_name: { type: String, unique: true },
       result: [
         {
