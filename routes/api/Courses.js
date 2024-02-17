@@ -17,6 +17,7 @@ router.get('/', async function (req, res, next) {
       topics: course.topics.map(topic => ({
         name: topic.name,
         order: topic.order,
+        num_test: topic.tests.length,
       })),
     }));
 

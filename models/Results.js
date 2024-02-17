@@ -19,6 +19,8 @@ const resultsSchema = mongoose.Schema({
       ],
     },
   ],
+  test_completed: { type: Number },
+  total_stars_earned: { type: Number },
 });
 
 const Results = mongoose.model('Results', resultsSchema);

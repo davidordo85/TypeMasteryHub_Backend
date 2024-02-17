@@ -65,6 +65,8 @@ router.post('/register', async (req, res, next) => {
     const newResults = new Results({
       id_user: newUser._id,
       resultTest: [],
+      test_completed: 0,
+      total_stars_earned: 0,
     });
 
     await newResults.save();

@@ -94,6 +94,7 @@ router.get('/test/:test_name', jwtToken, async (req, res) => {
 router.put('/', jwtToken, async (req, res) => {
   const userId = req.apiAuthUserId;
   const { topic_name, test_name, stars, ppm, time_test, errorCount } = req.body;
+
   try {
     if (
       !topic_name ||
@@ -101,22 +102,20 @@ router.put('/', jwtToken, async (req, res) => {
       !stars ||
       !ppm ||
       !time_test ||
-      !errorCount
+      errorCount === undefined ||
+      errorCount === null
     ) {
       return res.status(400).json({
         success: false,
         message: 'Missing required fields.',
       });
     }
-
     const results = await Results.findOne({
       id_user: userId,
     });
-
     const testResult = results.resultTest.find(
       result => result.test_name === test_name,
     );
-
     const result = {
       stars: stars,
       ppm: ppm,
@@ -124,9 +123,10 @@ router.put('/', jwtToken, async (req, res) => {
       errorCount: errorCount,
       date: new Date(),
     };
-
     if (results) {
       if (!testResult) {
+        results.test_completed += 1;
+        results.total_stars_earned += parseInt(stars);
         results.resultTest.push({
           topic_name: topic_name,
           test_name: test_name,
@@ -141,6 +141,15 @@ router.put('/', jwtToken, async (req, res) => {
             result.errorCount === parseInt(errorCount),
         );
         if (!isDuplicate) {
+          const existingMaxStars = testResult.result.reduce(
+            (max, result) => Math.max(max, result.stars),
+            0,
+          );
+          const starsDifference = Math.max(stars - existingMaxStars, 0);
+
+          if (starsDifference > 0) {
+            results.total_stars_earned += starsDifference;
+          }
           testResult.result.push(result);
         } else {
           return res.status(400).json({
