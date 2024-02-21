@@ -5,11 +5,79 @@ const jwtToken = require('../bin/jwtAuth');
 
 const { Results, TypeMasterHubCourse } = require('../models');
 
+//TODO: documentar esto en el readme y hacer un get results por nombre del topic y nombre del test
 /**
  * GET /api/v1/results
  */
 
 router.get('/', jwtToken, async (req, res) => {
+  try {
+    const userId = req.apiAuthUserId;
+    const results = await Results.findOne({ id_user: userId });
+    res.status(200).json({ success: true, result: results });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * GET /api/v1/results/totalTestsAndTotalStars/:topic_name
+ */
+
+router.get(
+  '/totalTestsAndTotalStars/:topic_name',
+  jwtToken,
+  async (req, res) => {
+    try {
+      const userId = req.apiAuthUserId;
+      const topic_name = req.params.topic_name;
+      const results = await Results.findOne({ id_user: userId });
+      if (!results) {
+        return res.status(401).json({
+          success: false,
+          message: 'No results found',
+        });
+      }
+
+      const topicResults = results.resultTest.find(
+        result => result.topic_name === topic_name,
+      );
+
+      const numberTestComplete = topicResults.tests.length;
+      let totalMaxStars = 0;
+
+      topicResults.tests.forEach(test => {
+        const testResults = test.result;
+        const maxStars = testResults.reduce((max, result) => {
+          return Math.max(max, result.stars);
+        }, 0);
+        totalMaxStars += maxStars;
+      });
+
+      if (topicResults.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: `No results found for topic ${topic_name}`,
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        result: {
+          totalTestsCompleted: numberTestComplete,
+          totalStarsEarned: totalMaxStars,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  },
+);
+
+/**
+ * GET /api/v1/results/totalTestsAndTotalStars
+ */
+
+router.get('/totalTestsAndTotalStars', jwtToken, async (req, res) => {
   try {
     const userId = req.apiAuthUserId;
     const results = await Results.findOne({ id_user: userId });
@@ -43,57 +111,6 @@ router.get('/', jwtToken, async (req, res) => {
           0,
         ),
         totalStarsEarned: totalMaxStars,
-        result: results,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-/**
- * GET /api/v1/results/topics/:topic_name
- */
-
-router.get('/topics/:topic_name', jwtToken, async (req, res) => {
-  try {
-    const userId = req.apiAuthUserId;
-    const topic_name = req.params.topic_name;
-    const results = await Results.findOne({ id_user: userId });
-    if (!results) {
-      return res.status(401).json({
-        success: false,
-        message: 'No results found',
-      });
-    }
-
-    const topicResults = results.resultTest.find(
-      result => result.topic_name === topic_name,
-    );
-
-    const numberTestComplete = topicResults.tests.length;
-    let totalMaxStars = 0;
-
-    topicResults.tests.forEach(test => {
-      const testResults = test.result;
-      const maxStars = testResults.reduce((max, result) => {
-        return Math.max(max, result.stars);
-      }, 0);
-      totalMaxStars += maxStars;
-    });
-
-    if (topicResults.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: `No results found for topic ${topic_name}`,
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      result: {
-        totalTestsCompleted: numberTestComplete,
-        starsEarned: totalMaxStars,
-        result: results,
       },
     });
   } catch (error) {
